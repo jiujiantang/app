@@ -39,8 +39,11 @@ const handleClick = (key: number) => {
   eventBus.publishCollect(componentName, params);  // 发布参数收集事件
 }
 onMounted(()=>{
-  eventBus.subscribeCollect((component: string) => {
-    if(component === "Side" || component === "Tab"){
+  eventBus.subscribeCollect((component: string, params: any) => {
+    if(component === "Init"){
+      status.value = params.coupon;
+      return { coupon: params.coupon };
+    }else if(component === "Side" || component === "Tab"){
       status.value = 2
     }
     return { coupon: status.value };

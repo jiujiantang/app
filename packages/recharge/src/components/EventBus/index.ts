@@ -2,8 +2,7 @@ import { reactive } from 'vue';
 
 export const eventBus = reactive({
   collectResults: [] as { component: string; params: any }[], // 存储所有收集的参数
-  callbacks: [] as ((component: string) => any)[],  // 存储所有订阅的回调函数
-  isCollecting: false, // 是否正在进行收集
+  callbacks: [] as ((component: string, params: any) => any)[],  // 存储所有订阅的回调函数
 
   // 发布参数收集事件
   publishCollect(component: string, params: any) {
@@ -14,7 +13,7 @@ export const eventBus = reactive({
 
     // 执行所有订阅的回调函数，并收集参数
     this.callbacks.forEach(callback => {
-      const collectedParams = callback(component);  // 调用每个组件的回调
+      const collectedParams = callback(component, params);  // 调用每个组件的回调
       this.collectResults.push({ component, params: collectedParams });
     });
 
@@ -23,7 +22,7 @@ export const eventBus = reactive({
   },
 
   // 订阅收集事件，注册回调函数
-  subscribeCollect(callback: (component: string) => any) {
+  subscribeCollect(callback: (component: string, params: any) => any) {
     this.callbacks.push(callback);  // 注册回调
   },
 
@@ -36,8 +35,6 @@ export const eventBus = reactive({
   // 触发所有收集完成后的结束事件
   triggerCollectEndEvent() {
     console.log('All parameter collections are complete. Triggering end event.');
-    this.isCollecting = false;
-    // 可以在这里执行联合查询等操作
   },
 
   // 获取所有收集的结果

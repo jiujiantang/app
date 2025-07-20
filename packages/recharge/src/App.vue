@@ -61,14 +61,16 @@ const { scTrack } = useSc()
 const {useUrl} = Common
 const {getQueryVariable} = useUrl()
 
+const componentName = "Init"
 onMounted(() => {
   scTrack("Lyk12zhounianqingExposure", {})
 
-  // a标签导航
-  if(getQueryVariable("hook") === "position"){
-    const targetSection = document.getElementById('position');
-    targetSection && targetSection.scrollIntoView({ behavior: 'smooth' });
-  }
+  // 参数导航?side=2&tab=2&coupon=1
+  eventBus.publishCollect(componentName, {
+    side: Number(getQueryVariable("side")) || 1,
+    tab: Number(getQueryVariable("tab")) || 1,
+    coupon: Number(getQueryVariable("coupon")) || 2,
+  });
 })
 
 // 监听 eventBus 中的收集结果
