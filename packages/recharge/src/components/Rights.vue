@@ -20,14 +20,12 @@ interface StatusItem {
 // 使用 reactive 初始化状态
 const status = reactive({
   rights: [
-    { key: 1, name: "权益1" },
-    { key: 2, name: "权益2" },
-    { key: 3, name: "权益3" },
-    { key: 4, name: "权益4" },
-    { key: 5, name: "权益5" },
-    { key: 6, name: "权益6" },
-    { key: 7, name: "权益7" },
-    { key: 8, name: "权益8" },
+    { key: 1, name: "素材下载满1币" },
+    { key: 2, name: "VIP库素材免费下" },
+    { key: 3, name: "付费素材重复下载" },
+    { key: 4, name: "付费免费下载折扣" },
+    { key: 5, name: "付费免费下载折扣" },
+    { key: 6, name: "材质免费下载" },
   ] as StatusItem[],  // 显式声明类型
 });
 
@@ -48,11 +46,15 @@ ul {
 }
 
 li {
-  width: calc(25% - 10px); /* 每个li占50%的宽度，减去间距 */
-  padding: 10px;
-  background-color: #f4f4f4;
+  width: calc(33% - 10px); /* 每个li占50%的宽度，减去间距 */
+  height: 44px;
+  line-height: 44px;
   border-radius: 4px;
-  transition: background-color 0.3s ease;
+
+  font-size: 14px;
+  font-weight: 500;
+  color: #4D4D4D;
+  background: #EBE6D7;
 }
 
 

@@ -21,12 +21,12 @@ interface sideItem {
 // 使用 reactive 初始化状态
 const status = reactive({
   side: [
-    { key: 1, name: "贵族1" },
-    { key: 2, name: "贵族2" },
-    { key: 3, name: "贵族3" },
-    { key: 4, name: "贵族4" },
-    { key: 5, name: "贵族5" },
-    { key: 6, name: "贵族6" }
+    { key: 1, name: "66大会员" },
+    { key: 2, name: "素材会员" },
+    { key: 3, name: "渲染贵族" },
+    { key: 4, name: "全景VIP" },
+    { key: 5, name: "AI会员" },
+    { key: 6, name: "自学贵族" },
   ] as sideItem[],  // 显式声明类型
   value: 1 as number,
 });
@@ -61,21 +61,31 @@ ul {
   margin: 0;
   list-style: none; /* 去掉默认的列表样式 */
   padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
 
 li {
-  padding: 10px;
-  background-color: #f4f4f4;
-  margin-bottom: 5px;
-  border-radius: 4px;
   transition: background-color 0.3s ease;
   cursor: pointer;
+  width: 128px;
+  height: 40px;
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 40px;
+  color: #4D4D4D;
+
   &.active{
     border: green 2px solid;
+    background: #F5F6F8;
   }
 }
 
 li:hover {
-  background-color: #e0e0e0;
+  background: #F5F6F8;
 }
 </style>

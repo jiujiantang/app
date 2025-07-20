@@ -1,9 +1,9 @@
 <template>
   <section class="payWrap">
-    <p>信息1</p>
-    <p>信息2</p>
-    <p>信息3</p>
-    <p>信息4</p>
+    <p>198</p>
+    <p>选择优惠券</p>
+    <p>支付方式</p>
+    <img :src="ma" alt="">
   </section>
 </template>
 
@@ -11,6 +11,7 @@
 import { useSc } from "@/uiux/useSc";
 import { useLyk } from "@/uiux/useLyk";
 import { reactive } from "vue";
+import ma from "@/assets/image/demoMa.png"
 
 // 定义状态类型
 interface StatusItem {
@@ -38,7 +39,12 @@ p {
   width: 100%;
   height: 50px;
   padding: 10px;
-  background-color: #f4f4f4;
-  border-radius: 4px;
+  &:first-child {
+    height: 100px;
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 100px;
+    color: #FF7F07;
+  }
 }
 </style>

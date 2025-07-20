@@ -21,9 +21,9 @@ interface StatusItem {
 // 使用 reactive 初始化状态
 const status = reactive({
   coupon: [
-    { key: 1, name: "coupon1" },
-    { key: 2, name: "coupon2" },
-    { key: 3, name: "coupon3" },
+    { key: 1, name: "199" },
+    { key: 2, name: "398" },
+    { key: 3, name: "597" },
   ] as StatusItem[],  // 显式声明类型
   value: 1 as number
 });
@@ -64,14 +64,22 @@ ul {
 }
 
 li {
-  width: 100px;
-  height: 150px;
-  padding: 10px;
   background-color: #f4f4f4;
   margin-bottom: 5px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
   cursor: pointer;
+
+  width: 180px;
+  height: 180px;
+  border-radius: 12px;
+  background: linear-gradient(359deg, #FFE7BF -46%, #FFF4E2 97%);
+  border: 2px solid #FFAD58;
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 180px;
+  color: #4D4D4D;
+
   &.active{
     border: green 2px solid;
   }

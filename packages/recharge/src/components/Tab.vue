@@ -21,8 +21,8 @@ interface StatusItem {
 // 使用 reactive 初始化状态
 const status = reactive({
   tab: [
-    { key: 1, name: "lel1" },
-    { key: 2, name: "lel2" },
+    { key: 1, name: "基础会员" },
+    { key: 2, name: "超级会员" },
   ] as StatusItem[],  // 显式声明类型
   value: 1 as number
 });
@@ -59,22 +59,25 @@ ul {
   list-style: none;
   display: flex;
   justify-content: left;
-  gap: 10px;
 }
 
 li {
-  padding: 10px;
-  background-color: #f4f4f4;
-  margin-bottom: 5px;
+  width: 335px;
+  height: 60px;
+  line-height: 60px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
   cursor: pointer;
+  font-size: 24px;
+  color: #4D4D4D;
+  background:#e0e0e0;
   &.active{
+    background: #fff;
     border: green 2px solid;
   }
 }
 
 li:hover {
-  background-color: #e0e0e0;
+  background-color: #fff;
 }
 </style>
