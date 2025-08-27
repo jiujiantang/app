@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>弹窗背景和按钮点击事件</title>
+  <style>
+    /* 页面背景和内容的基本样式 */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url('https://example.com/default-background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      transition: background-image 0.5s ease-in-out;
+    }
+
+    /* 弹窗样式 */
+    .popup {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      color: white;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    /* 隐藏弹窗 */
+    .popup-close {
+      background-color: #e74c3c;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+      font-size: 16px;
+    }
+
+    .popup-close:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <!-- 弹窗 -->
+  <div class="popup" id="popup">
+    <h3>这是一个弹窗</h3>
+    <p>你可以在这里加入更多内容！</p>
+    <button class="popup-close" id="closePopupBtn">关闭弹窗</button>
+  </div>
+
+  <script>
+    // 获取元素
+    const openPopupBtn = document.getElementById('openPopupBtn');
+    const closePopupBtn = document.getElementById('closePopupBtn');
+    const popup = document.getElementById('popup');
+    const body = document.body;
+
+    // 打开弹窗事件
+    openPopupBtn.addEventListener('click', () => {
+      popup.style.display = 'block';
+    });
+
+    // 关闭弹窗事件
+    closePopupBtn.addEventListener('click', () => {
+      popup.style.display = 'none';
+    });
+
+    // 更换背景图的函数
+    function changeBackground(imageUrl) {
+      body.style.backgroundImage = `url('${imageUrl}')`;
+    }
+
+    // 示例：调用更换背景图的功能
+    setTimeout(() => {
+      changeBackground('https://example.com/another-background.jpg');
+    }, 5000); // 5秒后更换背景
+
+  </script>
+
+</body>
+</html>
