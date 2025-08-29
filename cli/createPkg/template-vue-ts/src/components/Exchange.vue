@@ -10,7 +10,7 @@
               <h1>{{card.name}}<span v-if="card.exchange_type === 5 || card.exchange_type === 6">每日限兑1张，7日内有效</span></h1>
               <div class="guid">
                 <div class="li">
-                  <img src="@/assets/img/card-award.png" alt="">
+                  <img src="../assets/img/card-award.png" alt="">
                   <p>{{card.award[0].text}}</p>
                 </div>
                 <div class="c"></div>
