@@ -39,7 +39,7 @@ export default {
 
 # 功能阶段 开启， Ui实现阶段 关闭， 兼容溜云库老浏览器（不支持tailwindcss特性）
 ```js
-// main.js
+// main.ts
 if (import.meta.env.VITE_USE_TAILWIND === 'true') {
   import('./tailwind.css');
 }

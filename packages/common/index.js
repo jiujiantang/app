@@ -1,14 +1,14 @@
-import NineSquareLottery from './model/nineSquareLottery/index.vue';
-import {usePreloadImg} from "./helper/usePreload";
-import {useCopy} from "./helper/useCopy";
-import {useExternalMethod} from "./helper/useExternalMethod";
-import {useUrl} from "./helper/useUrl";
-import {useVersionUpdater} from "./helper/useVersionUpdater";
-import {useVersionUpdaterV2} from "./helper/useVersionUpdaterV2";
-import Toast from "./kuUi/Toast/index.vue";
-import Bubble from "./kuUi/Bubble/index.vue";
-import MessageCarousel from "./kuUi/MessageCarousel/index.vue";
-import Modal from "./kuUi/BaseModal.vue";
+import NineSquareLottery from '../../../packages/common/model/nineSquareLottery/index.vue';
+import {usePreloadImg} from "../../../packages/common/helper/usePreload";
+import {useCopy} from "../../../packages/common/helper/useCopy";
+import {useExternalMethod} from "../../../packages/common/helper/useExternalMethod";
+import {useUrl} from "../../../packages/common/helper/useUrl";
+import {useVersionUpdater} from "../../../packages/common/helper/useVersionUpdater";
+import {useVersionUpdaterV2} from "../../../packages/common/helper/useVersionUpdaterV2";
+import Toast from "../../../packages/common/kuUi/Toast/index.vue";
+import Bubble from "../../../packages/common/kuUi/Bubble/index.vue";
+import MessageCarousel from "../../../packages/common/kuUi/MessageCarousel/index.vue";
+import Modal from "../../../packages/common/kuUi/BaseModal.vue";
 
 export default {
     usePreloadImg,
