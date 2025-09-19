@@ -62,7 +62,7 @@ const FRAMEWORKS: Framework[] = [
             { name: 'act-popup-vue-ts', display: 'act-popup-vue-ts', color: chalk.yellow },
             { name: 'act-plugins-vue-ts', display: 'act-plugins-vue-ts', color: chalk.yellow },
             { name: 'host-page-vue-ts', display: 'host-page-vue-ts', color: chalk.yellow },
-            { name: 'micro-page-vue-ts', display: 'micro-page-vue-ts', color: chalk.yellow },
+            { name: 'micro-vue-ts', display: 'micro-page-vue-ts', color: chalk.yellow },
         ],
     }, // Vue 框架及其变体
 ]
