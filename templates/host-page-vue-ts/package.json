@@ -1,5 +1,5 @@
 {
-  "name": "recharge",
+  "name": "square-host",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "commander": "^14.0.0",
-    "common": "link:..\\common"
+    "common-hooks": "link:..\\..\\common",
+    "single-spa": "^6.0.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.4",
