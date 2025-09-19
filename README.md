@@ -1,65 +1,127 @@
-# 项目日志
+## 📦 项目结构总览
+```plaintext
+📦 application
+├── 📂 public/               
+├── 📂 cli/                  # 脚手架快速搭建项目
+├── 📂 book/                 # 在线文档
+│
+├── 📂 templates/            # 模板库
+│
+├── 📂 plugins/              # AI组件库
+│   ├── 📂 vue-a-b/          
+│   ├── 📂 react-a-b/        
+│   └── 📂 win-a-b/          
+│
+├── 📂 models/               # 子应用（子应用支持 Schema做低码配置）
+│   ├── 📂 schema/           
+│   └── 📂 a-b/              
+│
+├── 📂 packages/             # 主应用（主应用支持 插件化搭建+微前端扩展+AI组件拓展 ）
+│   └── 📂 a-b/              
+```
+<br>
 
-### 启动工程
-```shell
-cd ./packages/cli/create
-npm install
-npm run build
-cd ../../../
-npm run script-create
+## 🚀 搭建第一个溜云库项目
+自研插件`create-project-plugin` 是一个快速生成溜云库业务模板的脚手架工具。  
+该仓库内维护了多种 **业务模板**，涵盖不同框架与工具。
+
+```bash
+npx create-project
 ```
 
-### 项目创建脚手架
+👉 执行后根据交互提示操作即可完成项目初始化。
+
+> ⚠️ **注意执行目录**：请在根目录下运行上述命令。
+
+---
+
+<br>
+
+## 🧩 模板库
+
+当前支持的模板预设如下：
+
+| 模板名              | 描述        |
+|------------------|-----------|
+| `act-page-vue-ts`    | 主应用活动页模板  |
+| `act-popup-vue-ts`   | 主应用活动弹窗模板 |
+| `act-plugins-vue-ts` | 组件模板      |
+| `squareLottery`  | 子应用模板     |
+
+✨ 主应用模版功能亮点：
+- 通过 `create-project` 可选择启用/停用以下模块：
+    - 支付
+    - 登录
+    - 埋点
+    - 客户端 SDK
+    - 调试面板
+- 支持通过 **微前端** 调用子业务模块
+- 支持通过 **AI组件库** 调用功能组件
+
+👉 子业务模板支持通过 **schema码** 进行低代码配置，快速复用。
+
+---
+
+<br>
+
+## 🔌 AI组件库
+✨ 由 AI 驱动生成，单元测试与在线文档护航，即插即用，助力高效开发：
+
+- 🔗 极速支持：组件均以独立功能单元封装，AI 快速生成，让开发更轻松
+
+- ✅ 稳定可靠：内置完善单元测试，保障持续迭代与质量
+
+- 🚀 高效复用：沉淀常见功能、交互与动效，开箱即用
+
 ```shell
-# 通过模板，创建新项目
-npm run script-create
+# 在 prompts 目录下创建 button.md 提示词文件，运行命令，自动生成组件代码在 agent-out 目录 
+# xxx 为 openAI 的秘钥
+set API_KEY=xxx && npx agent-create generate button
+# xxx 为 API2D 的秘钥
+set API2D_KEY=xxx && npx agent-create generate button
 ```
 
-### 打开文档
-```shell
-npm run open-book
+---
+
+<br>
+
+## 🐘 接入 PHP 项目
+
+前端（Vue、React）项目打包后，会生成 `dist` 文件夹。  
+将其中 `index.html` 里的 **css、js 引用代码**复制到 PHP 页面中即可。
+
+```php
+<?php
+$currentDomain = $_SERVER['HTTP_HOST'];
+if (strpos($currentDomain, 'test') !== false) {
+    // 使用测试环境的域名
+    $baseUrl = 'https://lykstatictest.3d66.com/';
+} else {
+    // 使用生产环境的域名
+    $baseUrl = 'https://lykstatic.3d66.com/';
+}
+// 版本号
+$version = "1.0.0";
+?>
+<!-- 脚本引用 -->
+<script type="module" crossorigin src="<?php echo $baseUrl; ?>liuyunku/application/packages/recharge/dist/assets/index.js?v=<?php echo $version; ?>"></script>
+<link rel="stylesheet" crossorigin href="<?php echo $baseUrl; ?>liuyunku/application/packages/recharge/dist/assets/index.css?v=<?php echo $version; ?>">
+<script type="module">import.meta.url;import("_").catch(()=>1);(async function*(){})().next();if(location.protocol!="file:"){window.__vite_is_modern_browser=true}</script>
+<script type="module">!function(){if(window.__vite_is_modern_browser)return;console.warn("vite: loading legacy chunks, syntax error above and the same error below should be ignored");var e=document.getElementById("vite-legacy-polyfill"),n=document.createElement("script");n.src=e.src,n.onload=function(){System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))},document.body.appendChild(n)}();</script>
+<div id="app"></div>
+<script nomodule>!function(){var e=document,t=e.createElement("script");if(!("noModule"in t)&&"onbeforeload"in t){var n=!1;e.addEventListener("beforeload",(function(e){if(e.target===t)n=!0;else if(!e.target.hasAttribute("nomodule")||!n)return;e.preventDefault()}),!0),t.type="module",t.src=".",e.head.appendChild(t),t.remove()}}();</script>
+<script nomodule crossorigin id="vite-legacy-polyfill" src="<?php echo $baseUrl; ?>liuyunku/application/packages/recharge/dist/assets/polyfills-legacy.js?v=<?php echo $version; ?>"></script>
+<script nomodule crossorigin id="vite-legacy-entry" data-src="<?php echo $baseUrl; ?>liuyunku/application/packages/recharge/dist/assets/index-legacy.js?v=<?php echo $version; ?>">System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))</script>
 ```
 
-### 常用命令
-```shell
-# 安装共享的依赖
-pnpm add axios -w
+---
 
-# 本地共享包
-mkdir packages/common
-cd packages/common
-pnpm init
+<br>
 
-# 将共享包作为依赖添加到各个子项目中
-pnpm add ../common --filter app1
-pnpm add ../common --filter app2
+## 🎯 总结
 
-# 项目包 
-cd ./liuyunku/application/packages/year25
-pnpm install xxx
-```
-
-### 项目目录
-- `public/` - 静态文件
-- `clis/` - 脚手架(生成 插件、模块、项目 工程，构建工具)
-- `books/` - 文档（静态、脚手架、插件、模块、优化）
-- `plugins` - 插件(`vue-` - vue插件, `react-` - react插件, `win-` - 通用插件)
-  - `(vue|react|win)-a-b/` - 插件包
-- `models/` - 模块目录(`vue-` - vue模块, `react-` - react模块, `win-` - 通用模块)
-  - `schema/` - JSON Schema
-  - `(vue|react|win)-a-b/` - 模块包
-- `packages/` - 项目目录
-  - `a-b/` - 项目包 (微前端方式加载模块，npm方式引用插件包)
-
-### 项目搭建
-背景：插件、模块的解耦和复用
-
-### 技术选型
-1. Vue 3：活动多为小型应用，状态复杂，选用上手快、状态驱动友好的框架；React：在性能与生态方面表现更佳。
-2. pnpm：采用多项目仓库，既能保证项目独立，又可共享依赖与基础能力。
-3. Tailwind CSS：实用类优先，开发效率高，且可灵活定制，适合活动场景。
-4. Vite：构建效率高、插件生态完善、配置简单；配合 vite-test 做插件单元测试。
-5. TypeScript：类型检查，提升可维护性与可读性。
-6. Storybook：提供隔离环境，便于代码成果展示与测试，节省单元测试成本。
-7. Node.js：用于搭建脚手架与模板生成，提高初始化效率。
-
+- ✅ 使用 `create-project` 快速搭建溜云库应用
+- ✅ 主业务模板支持 **插件化配置**+**微前端扩展**+**AI组件拓展**
+- ✅ 子业务模板支持 **低代码 schema 配置**
+- ✅ 插件库积累了常用功能与动效
+- ✅ 打包后可无缝接入 PHP 项目  

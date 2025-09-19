@@ -1,5 +1,7 @@
 packages:
+  - 'common'
   - 'packages/*'
+  - 'models/*'
   - 'plugins/*'
   - 'book'
   - 'cli/*'

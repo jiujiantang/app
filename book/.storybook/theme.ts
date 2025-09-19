@@ -1,5 +1,5 @@
 import { create } from '@storybook/theming';
-import img from './addon-library.png';
+import img from '../src/assets/logoV3.png';
 
 declare module '*.png' {
   const value: string;
@@ -8,7 +8,7 @@ declare module '*.png' {
 
 export default create({
   base: 'light',
-  brandTitle: 'My custom storybook',
+  brandTitle: '溜云库前端组件库',
   brandUrl: './',
   brandImage: img,
   brandTarget: '_self',
