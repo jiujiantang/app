@@ -15,12 +15,13 @@ export default defineConfig(() => {
         entry: path.resolve(__dirname, 'src/index.js'),
         name: 'agentCreate',
         fileName: format => `index.${format}.js`,
-        formats: ['es', 'cjs'],
+        formats: ['es'],
       },
+      sourcemap: false,        // 关掉 map
+      minify: 'terser',        // 压缩 + 混淆
       rollupOptions: {
         output: {
           dir: 'dist',
-          format: 'esm'
         },
         external: ['fs', 'fs/promises', 'path']
       },

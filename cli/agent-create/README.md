@@ -16,7 +16,7 @@
 
 1. **输入处理**：通过命令行接收组件类型和参数
    ```
-   node index.js generate button "{\"label\":\"提交\",\"disabled\":false}"
+   set API2D_KEY=xxxxx && npx agent-create generate button
    ```
 
 2. **提示词工程**：使用预定义的模板（`prompts/`目录下的.md文件）构建精确的提示词

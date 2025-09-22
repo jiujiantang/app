@@ -1,69 +1,102 @@
-#!/usr/bin/env node
-import i from "fs/promises";
-const a = process.env.OPENAI_API_KEY || "", A = process.env.OPENAI_BASE || "https://api.openai.com/v1", l = process.env.API2D_KEY || "", m = process.env.API2D_BASE || "https://openai.api2d.net/v1";
-!a && !l && (console.error("❌ 请设置 OPENAI_API_KEY 或 API2D_KEY 环境变量"), process.exit(1));
-const E = "gpt-4o-mini";
-async function P(e) {
-  return i.readFile(`prompts/${e}.md`, "utf8");
+import fs from "fs/promises";
+const API_KEY = process.env.OPENAI_API_KEY || "";
+const OPENAI_BASE = process.env.OPENAI_BASE || "https://api.openai.com/v1";
+const API2D_KEY = process.env.API2D_KEY || "";
+const API2D_BASE = process.env.API2D_BASE || "https://openai.api2d.net/v1";
+if (!API_KEY && !API2D_KEY) {
+  console.error("❌ 请设置 OPENAI_API_KEY 或 API2D_KEY 环境变量");
+  process.exit(1);
 }
-async function u(e, t, s) {
-  const n = await fetch(`${e}/chat/completions`, {
+const model = "gpt-4o-mini";
+async function loadPrompt(name) {
+  return fs.readFile(`prompts/${name}.md`, "utf8");
+}
+function buildMessage(promptTemplate) {
+  return promptTemplate;
+}
+async function requestAPI(base, key, promptText) {
+  const res = await fetch(`${base}/chat/completions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${t}`
+      "Authorization": `Bearer ${key}`
     },
     body: JSON.stringify({
-      model: E,
+      model,
       messages: [
         { role: "system", content: "你是一个前端工程师，输出 Vue/React 组件、stories 和测试文件代码。" },
-        { role: "user", content: s }
+        { role: "user", content: promptText }
       ],
       temperature: 0,
       max_tokens: 3e3
     })
   });
-  if (!n.ok) {
-    const r = await n.text();
-    throw new Error(`${e} 返回错误: ${n.status} ${r}`);
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(`${base} 返回错误: ${res.status} ${txt}`);
   }
-  return (await n.json()).choices?.[0]?.message?.content;
+  const j = await res.json();
+  return j.choices?.[0]?.message?.content;
 }
-async function d(e) {
+async function callModel(promptText) {
   try {
-    if (a)
-      return console.log("🌐 正在调用 OpenAI..."), await u(A, a, e);
-    throw new Error("未设置 OPENAI_API_KEY");
-  } catch (t) {
-    if (console.warn("⚠️ OpenAI 调用失败:", t.message), l)
-      return console.log("🔄 切换到 API2D..."), await u(m, l, e);
-    throw new Error("没有可用的 API2D_KEY，无法回退");
+    if (API_KEY) {
+      console.log("🌐 正在调用 OpenAI...");
+      return await requestAPI(OPENAI_BASE, API_KEY, promptText);
+    } else {
+      throw new Error("未设置 OPENAI_API_KEY");
+    }
+  } catch (err) {
+    console.warn("⚠️ OpenAI 调用失败:", err.message);
+    if (API2D_KEY) {
+      console.log("🔄 切换到 API2D...");
+      return await requestAPI(API2D_BASE, API2D_KEY, promptText);
+    } else {
+      throw new Error("没有可用的 API2D_KEY，无法回退");
+    }
   }
 }
-function w(e, t) {
-  const s = {}, n = /```(?:\w+)?\n([\s\S]*?)```/g;
-  let c, r = 0;
-  for (; (c = n.exec(e)) !== null; ) {
-    const o = c[1].trim();
-    o.includes("stories") ? s[`${t}.stories.ts`] = o : o.includes("spec") ? s[`${t}.spec.ts`] = o : o.includes("typescriptTypes") ? s[`${t}.type.ts`] = o : s[`${t}.tsx`] = o, r++;
+function splitOutput(content, name) {
+  const files = {};
+  const regex = /```(?:\w+)?\n([\s\S]*?)```/g;
+  let match, i = 0;
+  while ((match = regex.exec(content)) !== null) {
+    const code = match[1].trim();
+    if (code.includes("stories")) {
+      files[`${name}.stories.ts`] = code;
+    } else if (code.includes("spec")) {
+      files[`${name}.spec.ts`] = code;
+    } else if (code.includes("typescriptTypes")) {
+      files[`${name}.type.ts`] = code;
+    } else {
+      files[`${name}.tsx`] = code;
+    }
+    i++;
   }
-  return r === 0 && (s[`${t}.tsx`] = e), s;
+  if (i === 0) {
+    files[`${name}.tsx`] = content;
+  }
+  return files;
 }
-async function I() {
-  const [, , e, t] = process.argv;
-  if (e !== "generate" || !t) {
+async function main() {
+  const [, , cmd, promptName] = process.argv;
+  if (cmd !== "generate" || !promptName) {
     console.log("用法: node ai-agent.js generate <promptName>");
     return;
   }
-  const s = await P(t), n = s;
+  const template = await loadPrompt(promptName);
+  const promptText = buildMessage(template);
   console.log("调用模型...");
-  const c = await d(n), r = w(c, t);
-  await i.mkdir("src", { recursive: !0 });
-  for (const [o, f] of Object.entries(r)) {
-    const p = `src/${o}`;
-    await i.writeFile(p, f, "utf8"), console.log("✅ 已写入：", p);
+  const out = await callModel(promptText);
+  const files = splitOutput(out, promptName);
+  await fs.mkdir(`src`, { recursive: true });
+  for (const [filename, code] of Object.entries(files)) {
+    const outPath = `src/${filename}`;
+    await fs.writeFile(outPath, code, "utf8");
+    console.log("✅ 已写入：", outPath);
   }
 }
-I().catch((e) => {
-  console.error("❌ 运行出错:", e), process.exit(1);
+main().catch((err) => {
+  console.error("❌ 运行出错:", err);
+  process.exit(1);
 });

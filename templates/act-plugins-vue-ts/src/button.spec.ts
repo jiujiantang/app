@@ -1,6 +1,6 @@
 // Button.spec.ts
 import { render, fireEvent } from '@testing-library/vue';
-import Button from './Button';
+import Button from './button';
 import { describe, it, expect } from 'vitest';
 
 describe('Button', () => {

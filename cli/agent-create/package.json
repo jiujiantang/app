@@ -1,14 +1,18 @@
 {
   "name": "agent-create",
-  "version": "2.6.0",
+  "version": "2.6.6",
   "type": "module",
   "main": "src/index.js",
+  "files": [
+    "bin",
+    "dist"
+  ],
   "bin": {
     "agent-create": "bin/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "set API2D_KEY=fk234955-K8cb3LWQ0MJOnWZCV9G1c6epqInAS3Sh && npx agent-create generate button",
+    "dev": "set API2D_KEY=xxxxx && npx agent-create generate button",
     "build": "cross-env NODE_ENV=production vite build"
   },
   "keywords": [],
@@ -24,6 +28,7 @@
     "undici": "^7.16.0",
     "vite": "^7.1.7",
     "vite-plugin-dts": "^4.5.4",
+    "vite-plugin-obfuscator": "^1.0.5",
     "zod": "^3.25.76"
   }
 }

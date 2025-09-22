@@ -1,11 +1,10 @@
 // Button.stories.ts
 import { Meta, StoryFn } from '@storybook/vue3';
-import Button from './Button';
+import Button from './button';
 
 export default {
   title: 'Components/Button',
   component: Button,
-  tags: ['autodocs'],
 } as Meta;
 
 const Template: StoryFn = (args) => ({
