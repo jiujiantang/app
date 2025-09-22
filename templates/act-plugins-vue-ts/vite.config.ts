@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 import dts from 'vite-plugin-dts';
 import path from 'path';
 import pkg from './package.json';
@@ -28,7 +29,7 @@ export default defineConfig(() => {
         },
       },
     },
-    plugins: [vue(), dts()],
+    plugins: [vue(), vueJsx(), dts()],
     test: {
       environment: 'jsdom', // 指定测试环境为 jsdom
       globals: true,        // 支持 describe / it / expect 全局变量

@@ -1,5 +1,5 @@
-import Countdown from './components/Countdown.vue';
-import { countdownManager } from './core/CountdownManager';
+import Button from './button';
+import type ButtonProps from './button.type';
 
-export default Countdown;
-export { countdownManager };
+export default Button;
+export { ButtonProps };

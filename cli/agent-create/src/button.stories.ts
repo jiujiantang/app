@@ -1,12 +1,13 @@
 // Button.stories.ts
-import Button from './Button.vue';
+import { Meta, StoryFn } from '@storybook/vue3';
+import Button from './Button';
 
 export default {
   title: 'Components/Button',
   component: Button,
-};
+} as Meta;
 
-const Template = (args) => ({
+const Template: StoryFn = (args) => ({
   components: { Button },
   setup() {
     return { args };
@@ -17,11 +18,5 @@ const Template = (args) => ({
 export const Default = Template.bind({});
 Default.args = {
   label: 'Click Me',
-  disabled: false,
-};
-
-export const Disabled = Template.bind({});
-Disabled.args = {
-  label: 'Disabled',
-  disabled: true,
+  onClick: () => alert('Button clicked!'),
 };

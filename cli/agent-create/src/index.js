@@ -84,6 +84,8 @@ function splitOutput(content, name) {
       files[`${name}.stories.ts`] = code;
     } else if (code.includes('spec')) {
       files[`${name}.spec.ts`] = code;
+    } else if (code.includes('typescriptTypes')) {
+      files[`${name}.type.ts`] = code;
     } else {
       // 默认认为是组件
       files[`${name}.tsx`] = code;
@@ -112,9 +114,9 @@ async function main() {
 
   const files = splitOutput(out, promptName);
 
-  await fs.mkdir(`agent-out/${promptName}`, { recursive: true });
+  await fs.mkdir(`src`, { recursive: true });
   for (const [filename, code] of Object.entries(files)) {
-    const outPath = `agent-out/${promptName}/${filename}`;
+    const outPath = `src/${filename}`;
     await fs.writeFile(outPath, code, 'utf8');
     console.log('✅ 已写入：', outPath);
   }
