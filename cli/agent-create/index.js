@@ -2,16 +2,6 @@
 /**
  *  用法：
  *    node index.js generate button
- *  使用openAI时，需要打开代理（比如：clash,clash使用TUN模式）,输入key:
- *    set OPENAI_API_KEY=xxx
- *  使用API2D时，输入key
- *    set API2D_KEY=xxx
- *
- * 环境变量：
- *   OPENAI_API_KEY   必填，OpenAI 的 Key
- *   API2D_KEY        选填，API2D 的 Key（自动回退时使用）
- *   OPENAI_BASE      选填，默认 https://api.openai.com/v1
- *   OPENAI_PROXY     选填，代理地址，支持 http:// 或 socks5://
  */
 
 import fs from 'fs/promises';
@@ -28,17 +18,14 @@ if (!API_KEY && !API2D_KEY) {
 
 const model = 'gpt-4o-mini'; // 可换成 gpt-4o / gpt-4.1-mini
 
-// 读取 prompts 文件
 async function loadPrompt(name) {
   return fs.readFile(`prompts/${name}.md`, 'utf8');
 }
 
-// 替换 {{var}}
 function buildMessage(promptTemplate) {
   return promptTemplate;
 }
 
-// 通用调用函数
 async function requestAPI(base, key, promptText) {
   const res = await fetch(`${base}/chat/completions`, {
     method: 'POST',
@@ -49,11 +36,11 @@ async function requestAPI(base, key, promptText) {
     body: JSON.stringify({
       model,
       messages: [
-        { role: 'system', content: '你是一个前端工程师，输出可运行的 Vue/React 组件代码。' },
+        { role: 'system', content: '你是一个前端工程师，输出 Vue/React 组件、stories 和测试文件代码。' },
         { role: 'user', content: promptText }
       ],
       temperature: 0,
-      max_tokens: 2000
+      max_tokens: 3000
     })
   });
 
@@ -66,7 +53,6 @@ async function requestAPI(base, key, promptText) {
   return j.choices?.[0]?.message?.content;
 }
 
-// 调用 OpenAI，失败则回退 API2D
 async function callModel(promptText) {
   try {
     if (API_KEY) {
@@ -86,30 +72,52 @@ async function callModel(promptText) {
   }
 }
 
-// 主入口
+// 将 AI 输出拆分成 3 个文件
+function splitOutput(content, name) {
+  const files = {};
+  // 用 markdown 代码块标签分割
+  const regex = /```(?:\w+)?\n([\s\S]*?)```/g;
+  let match, i = 0;
+  while ((match = regex.exec(content)) !== null) {
+    const code = match[1].trim();
+    if (code.includes('stories')) {
+      files[`${name}.stories.ts`] = code;
+    } else if (code.includes('spec')) {
+      files[`${name}.spec.ts`] = code;
+    } else {
+      // 默认认为是组件
+      files[`${name}.tsx`] = code;
+    }
+    i++;
+  }
+  if (i === 0) {
+    // 没有代码块时，直接写一个组件文件
+    files[`${name}.tsx`] = content;
+  }
+  return files;
+}
+
 async function main() {
   const [,, cmd, promptName] = process.argv;
   if (cmd !== 'generate' || !promptName) {
-    console.log('用法: node ai-agent.js generate <promptName> <jsonVars>');
+    console.log('用法: node ai-agent.js generate <promptName>');
     return;
   }
+
   const template = await loadPrompt(promptName);
   const promptText = buildMessage(template);
 
   console.log('调用模型...');
   const out = await callModel(promptText);
 
-  const outPath = `agent-out/${promptName}.generated.md`;
-  await fs.mkdir('agent-out', { recursive: true });
-  await fs.writeFile(outPath, out, 'utf8');
-  console.log('✅ 已写入：', outPath);
+  const files = splitOutput(out, promptName);
 
-  // try {
-  //   execSync(`npx eslint ${outPath} --max-warnings=0`, { stdio: 'inherit' });
-  //   console.log('✅ eslint 通过');
-  // } catch {
-  //   console.warn('⚠️ eslint 未通过或未安装');
-  // }
+  await fs.mkdir(`agent-out/${promptName}`, { recursive: true });
+  for (const [filename, code] of Object.entries(files)) {
+    const outPath = `agent-out/${promptName}/${filename}`;
+    await fs.writeFile(outPath, code, 'utf8');
+    console.log('✅ 已写入：', outPath);
+  }
 }
 
 main().catch(err => {

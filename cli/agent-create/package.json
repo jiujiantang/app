@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "set API2D_KEY=xxx && npx agent-create generate button"
+    "dev": "set API2D_KEY=fk234955-K8cb3LWQ0MJOnWZCV9G1c6epqInAS3Sh && npx agent-create generate button"
   },
   "keywords": [],
   "author": "",
