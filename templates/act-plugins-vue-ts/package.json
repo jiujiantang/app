@@ -20,7 +20,7 @@
     "@vitejs/plugin-vue": "^4.5.14",
     "@vitest/coverage-v8": "^3.2.4",
     "@vue/test-utils": "^2.4.6",
-    "agent-create": "^1.1.0",
+    "agent-create": "^2.0.0",
     "cross-env": "^10.0.0",
     "jsdom": "^26.1.0",
     "typescript": "^5.0.0",
