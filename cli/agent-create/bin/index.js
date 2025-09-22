@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-import("../src/index.js") // 注意一定要加 #!/usr/bin/env node，否则不会被当作命令执行。
+import("../dist/index.es.js") // 注意一定要加 #!/usr/bin/env node，否则不会被当作命令执行。
