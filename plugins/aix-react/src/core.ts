@@ -81,13 +81,16 @@ const Didact = (() => {
 
     // 渲染入口
     function render(element, container) {
+        console.log("应用调用 render")
+        console.log("初始化 wipRoot")
         wipRoot = {
             type: 'div',
             dom: container,
             props: { children: [element] },
-            alternate: currentRoot,
+            alternate: currentRoot,// 当前已提交的 Fiber 树
         };
         deletions = [];
+        console.log("设置 nextUnitOfWork")
         nextUnitOfWork = wipRoot;
     }
 
@@ -95,21 +98,26 @@ const Didact = (() => {
     function workLoop(deadline) {
         let shouldYield = false;
         while (nextUnitOfWork && !shouldYield) {
+            console.log("有工作单元，时间充足")
             nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
+            console.log("返回下一个工作单元")
             shouldYield = deadline.timeRemaining() < 1;
         }
 
         if (!nextUnitOfWork && wipRoot) {
+            console.log("没有工作单元了，提交")
             commitRoot();
         }
 
         requestIdleCallback(workLoop);
     }
 
+    console.log("workLoop 触发......")
     requestIdleCallback(workLoop);
 
     // 执行一个 Fiber 工作单元
     function performUnitOfWork(fiber) {
+        console.log("performUnitOfWork, 执行一个 Fiber 工作单元")
         const isFunctionComponent =
             fiber.type instanceof Function;
 
@@ -153,6 +161,7 @@ const Didact = (() => {
 
     // 协调子节点（新旧 Fiber 比对）
     function reconcileChildren(wipFiberNode, elements) {
+        console.log("reconcileChildren, diff Fiber 树");
         let index = 0;
         let oldFiber = wipFiberNode.alternate && wipFiberNode.alternate.child;
         let prevSibling = null;
@@ -211,6 +220,7 @@ const Didact = (() => {
 
     // 提交 Fiber 树变更
     function commitRoot() {
+        console.log("commitRoot");
         deletions.forEach(commitWork);
         commitWork(wipRoot.child);
         currentRoot = wipRoot;
@@ -219,14 +229,17 @@ const Didact = (() => {
 
     // 提交单个 Fiber
     function commitWork(fiber) {
+        console.log("commitWork")
         if (!fiber) return;
 
+        console.log("查找DOM父节点")
         let domParentFiber = fiber.return;
         while (!domParentFiber.dom) {
             domParentFiber = domParentFiber.return;
         }
         const domParent = domParentFiber.dom;
 
+        console.log("检查 effectTag", fiber.effectTag)
         if (fiber.effectTag === 'PLACEMENT' && fiber.dom != null) {
             domParent.appendChild(fiber.dom);
         } else if (fiber.effectTag === 'UPDATE' && fiber.dom != null) {
@@ -236,7 +249,9 @@ const Didact = (() => {
             return;
         }
 
+        console.log("递归处理子节点")
         commitWork(fiber.child);
+        console.log("递归处理兄弟节点")
         commitWork(fiber.sibling);
     }
 
