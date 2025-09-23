@@ -1,0 +1,146 @@
+const M = (() => {
+  function L(t, e, ...n) {
+    return {
+      type: t,
+      props: {
+        ...e,
+        children: n.map(
+          (o) => typeof o == "object" ? o : D(o)
+        )
+      }
+    };
+  }
+  function D(t) {
+    return {
+      type: "TEXT_ELEMENT",
+      props: { nodeValue: t, children: [] }
+    };
+  }
+  function O(t) {
+    const e = t.type === "TEXT_ELEMENT" ? document.createTextNode("") : document.createElement(t.type);
+    return y(e, {}, t.props), e;
+  }
+  const m = (t) => t.startsWith("on"), T = (t) => t !== "children" && !m(t), w = (t, e) => (n) => !(n in e), h = (t, e) => (n) => t[n] !== e[n];
+  function y(t, e, n) {
+    Object.keys(e).filter(m).filter((o) => !(o in n) || h(e, n)(o)).forEach((o) => {
+      const s = o.toLowerCase().substring(2);
+      t.removeEventListener(s, e[o]);
+    }), Object.keys(e).filter(T).filter(w(e, n)).forEach((o) => {
+      t[o] = "";
+    }), Object.keys(n).filter(T).filter(h(e, n)).forEach((o) => {
+      t[o] = n[o];
+    }), Object.keys(n).filter(m).filter(h(e, n)).forEach((o) => {
+      const s = o.toLowerCase().substring(2);
+      t.addEventListener(s, n[o]);
+    });
+  }
+  let i = null, c = null, a = null, d = null;
+  function j(t, e) {
+    c = {
+      type: "div",
+      dom: e,
+      props: { children: [t] },
+      alternate: a
+    }, d = [], i = c;
+  }
+  function g(t) {
+    let e = !1;
+    for (; i && !e; )
+      i = q(i), e = t.timeRemaining() < 1;
+    !i && c && A(), requestIdleCallback(g);
+  }
+  requestIdleCallback(g);
+  function q(t) {
+    if (t.type instanceof Function ? I(t) : v(t), t.child)
+      return t.child;
+    let n = t;
+    for (; n; ) {
+      if (n.sibling)
+        return n.sibling;
+      n = n.return;
+    }
+    return null;
+  }
+  let u = null, f = null;
+  function I(t) {
+    u = t, f = 0, u.hooks = [];
+    const e = [t.type(t.props)];
+    k(t, e);
+  }
+  function v(t) {
+    t.dom || (t.dom = O(t));
+    const e = t.props.children || [];
+    k(t, e);
+  }
+  function k(t, e) {
+    let n = 0, o = t.alternate && t.alternate.child, s = null;
+    for (; n < e.length || o != null; ) {
+      const l = e[n];
+      let r = null;
+      const E = o && l && l.type === o.type;
+      E && (r = {
+        type: o.type,
+        props: l.props,
+        dom: o.dom,
+        return: t,
+        alternate: o,
+        effectTag: "UPDATE"
+      }), l && !E && (r = {
+        type: l.type,
+        props: l.props,
+        dom: null,
+        return: t,
+        alternate: null,
+        effectTag: "PLACEMENT"
+      }), o && !E && (o.effectTag = "DELETION", d.push(o)), o && (o = o.sibling), n === 0 ? t.child = r : l && (s.sibling = r), s = r, n++;
+    }
+  }
+  function A() {
+    d.forEach(p), p(c.child), a = c, c = null;
+  }
+  function p(t) {
+    if (!t)
+      return;
+    let e = t.return;
+    for (; !e.dom; )
+      e = e.return;
+    const n = e.dom;
+    if (t.effectTag === "PLACEMENT" && t.dom != null)
+      n.appendChild(t.dom);
+    else if (t.effectTag === "UPDATE" && t.dom != null)
+      y(t.dom, t.alternate.props, t.props);
+    else if (t.effectTag === "DELETION") {
+      C(t, n);
+      return;
+    }
+    p(t.child), p(t.sibling);
+  }
+  function C(t, e) {
+    t.dom ? e.removeChild(t.dom) : C(t.child, e);
+  }
+  function F(t) {
+    const e = u.alternate && u.alternate.hooks && u.alternate.hooks[f], n = {
+      state: e ? e.state : t,
+      queue: []
+    };
+    (e ? e.queue : []).forEach((l) => {
+      n.state = typeof l == "function" ? l(n.state) : l;
+    });
+    const s = (l) => {
+      n.queue.push(l), c = {
+        dom: a.dom,
+        props: a.props,
+        alternate: a
+      }, i = c, d = [];
+    };
+    return u.hooks.push(n), f++, [n.state, s];
+  }
+  return {
+    createElement: L,
+    render: j,
+    useState: F
+  };
+})();
+export {
+  M as Didact
+};
