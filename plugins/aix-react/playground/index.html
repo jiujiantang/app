@@ -1,12 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playground</title>
+  <meta charset="UTF-8">
+  <title>Didact 可视化运行</title>
+  <style>
+    body {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      height: 100vh;
+      margin: 0;
+      font-family: monospace;
+    }
+    #root {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #ddd;
+    }
+    #fiber {
+      padding: 10px;
+      overflow: auto;
+      background: #f0f8ff;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    li {
+      margin: 2px 0;
+    }
+    .fiber-node {
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    .PLACEMENT { background: #d1ffd1; }
+    .UPDATE { background: #fff7c2; }
+    .DELETION { background: #ffd6d6; text-decoration: line-through; }
+  </style>
 </head>
 <body>
-<div id="root"></div>
-<script type="module" src="/main.ts"></script>
+  <div id="root "></div>
+  <div id="fiber"><pre>// Fiber 树可视化</pre></div>
+  <script type="module" src="/main.ts"></script>
 </body>
 </html>
