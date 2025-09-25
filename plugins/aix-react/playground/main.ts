@@ -20,3 +20,18 @@ function Counter() {
 const element = createElement(Counter, null);
 const container = document.getElementById('root');
 render(element, container);
+
+
+
+
+    // runBtn.addEventListener("click", () => {
+    //   outputEl.innerHTML = "<pre>// Fiber 日志输出</pre>";
+    //   fiberEl.innerHTML = "<pre>// Fiber 树可视化</pre>";
+    //   document.getElementById("app").innerHTML = "应用挂载点";
+    //   try {
+    //     const fn = new Function("Didact", "window", codeEl.value);
+    //     fn(Didact, window);
+    //   } catch (err) {
+    //     console.log("运行出错:", err.message);
+    //   }
+    // });
