@@ -1,0 +1,38 @@
+{
+    "name": "卓乎灵感收藏工具",
+    "description" : "这个扩展程序可以让你方便地从任意网站上采集喜欢的灵感图片到卓乎（www-zhuohu.3d66.com）上。这是卓乎官方提供的扩展工具。",
+    "version": "1.1.4",
+      //  测试版本 zhuohu-test-extension-1.1.4.1
+      // 正式版本  zhuohu-extension-1.1.3
+    "manifest_version": 3,
+    "web_accessible_resources": [ "/bookmark.html","/imgfile.html","/Collection-page.html","/uploadSucc.html","/uploadErr.html","/Edit-img.html"],
+    "browser_action": {
+      "default_popup": "popup.html",
+      "default_icon": "images/logo-48.png",
+      "default_title": "卓乎-在线灵感库"
+    },
+    "icons":{
+      "128": "images/logo-128.png",
+      "16": "images/logo-48.png",
+      "48": "images/logo-48.png"
+    },
+    // "permissions": ["storage"],
+   // "options_page": "preferences.html",
+   "permissions": ["browsingData","cookies","https://www.3d66.com/*","contextMenus", "notifications", "storage","activeTab","contextMenus","downloads", "tabs", "http://*/*", "https://*/*", "activeTab", "\u003Call_urls>" ],
+    "background":
+	{
+		// 2种指定方式，如果指定JS，那么会自动生成一个背景页
+		"scripts": ["js/background.js"]
+	},
+	"content_scripts": [ {
+      "all_frames": true,
+      "js": [ "/js/jquery-1.8.3.min.js", "/js/jquery.cookie.js","/js/jquery.xgallerify.min.js","/js/chrome-function.js","/js/screenshot/html2canvas.js","/js/screenshot/screenshot.js","/js/content.js","/js/cont-keydown.js","/js/screenshot/visible-area.js","/js/screenshot/SelectArea.js","/js/content-fun.js" ],
+      "css":["/css/baguetteBox.css","/css/style.css","/css/Collection.css","/css/zhuohuCaputre.css"],
+      "matches": [ "http://*/*", "https://*/*" ],
+      "run_at": "document_end"
+   	}, {
+      "css": [ "css/popup.css" ],
+      "matches": [ "http://*/*", "https://*/*" ],
+      "run_at": "document_end"
+   	}]
+}

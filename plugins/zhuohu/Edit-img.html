@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卓乎截屏</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/layer/theme/default/layer.css">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/Collection.css">
+    <link rel="stylesheet" href="/css/edit-img.css">
+</head>
+<body class="Body-back">
+    <div class="Edit-header">
+        <div class="wdx-title">								
+            <a href="https://www-zhuohu.3d66.com/introduce" target="_blank">
+                <span class="tit-left"><i class="icon-zhuohu"></i>卓乎</span>
+            </a>								
+            <div class="Chrome-Feedback">
+                <a href="https://wpa.qq.com/msgrd?v=3&uin=854260180&site=qq&menu=yes&jumpflag=1" target="_blank"><span class="wdx-yjfk"><i></i>意见反馈</span></a>
+                <div class="hov-cont">
+                    <p class="code-title">卓乎内测用户反馈群</p>
+                    <p class="code-title">(入群领取神秘福利)</p>
+                    <p><img class="code-qq" src="/images/code/qq.png" alt=""></p>
+                    <p class="code-txt">打开手机QQ，扫一扫</p>
+                </div>
+            </div>
+            <i class="i-but" id="page-off"></i>                            
+        </div>
+    </div>
+    <div class="Edit-common">
+        <div class="edit-com-cont">
+            <img class="js_img_canv" src="" alt="">
+        </div>
+        
+    </div>
+    <div class="edit-fixed">
+        <div class="fixed-right">
+            <button class="but js_img_down"><i class="icon-bc"></i>保存本地</button>
+            <button class="but js_collection"><i class="icon-sc"></i>收藏至卓乎</button>
+            <!-- 收藏弹框 -->
+            <div id="collection_html">
+                <div class="push-table Cont-opac-all">
+                    <p class="css-line css-title"><i class="css-icon-off"></i>添加至</p>                    
+                    <div class="hed-search">
+                        <input class="css-inp" id="inserter" type="text" data-type="1" placeholder="搜索灵感集"><i class="sea-icon-rem JS_search_rem"></i>
+                    </div>                    
+                    <div class="css-cont" id="Tab-search">
+                    </div>                    
+                    <div class="Establish-comm">                        
+                        <div class="est-but JS_esta_add">创建并添加</div>                       
+                        <div class="est-input">                            
+                            <input class="Input" type="text" placeholder="输入灵感集名称">                            
+                            <button class="but-sub JS_add_push" data-type="page">添加</button>                        
+                        </div>                        
+                        <div class="est-but setablish-bottom JS_sear_add" data-type="page">创建并添加 至 "<span class="span">中式客厅</span>"灵感库</div>                    
+                    </div>                
+                </div>
+                <!-- 上传状态 -->
+                <div class="push-table esc-Type load-type">
+                    <p class="css-line css-title"><i class="css-icon-off"></i></p>
+                    <span class="load-img"></span>
+                    <p class="load-text">上传中</p>
+                </div>
+                <!-- 收藏失败 -->
+                <div class="push-table esc-Type load-err">
+                    <p class="css-line css-title"><i class="css-icon-off"></i></p>
+                    <p class="succ-txt"><i></i>收藏失败，<a class="href-suc">图片违规</a></p>
+                    <img class="img-type js_img_canv" src="" alt="">
+                    <p class="but-kf js_lxkf">联系客服</p>
+                </div>
+                <!-- 联系客服 -->
+                <div class="push-table load-kf">
+                    <p class="css-line css-title"><i class="css-icon-off"></i></p>
+                    <p class="succ-txt">产品经理QQ：854260180</p>
+                    <p class="text-br">或</p>
+                    <img class="img-type img-code" src="/images/code.png" alt="">
+                    <p class="but-kf">打开手机微信，扫一扫</p>
+                </div>
+                <!-- 收藏成功 -->
+                <div class="push-table esc-Type load-succ">
+                    <p class="css-line css-title"><i class="css-icon-off"></i></p>
+                    <p class="succ-txt"><i></i>收藏成功，<a class="href-suc js_look" target="_blank" href="">点击查看</a></p>
+                    <img class="img-type js_img_canv" src="" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+
+    <script src="/layer/layer.js"></script>
+    <script src="/layui/layui.js"></script>
+    <script src="/js/JSEncrypt.js"></script>
+    <script src="/js/JSEncryptKey.js"></script>
+    <script src="/js/spark-md5.min.js"></script>
+    <script src="/js/jquery.autocomplete.min.js"></script>
+
+    <script src="/js/chrome-function.js"></script>
+    <script src="js/upload.oss.js"></script>
+    <script src="/js/wdx-upload.js"></script>
+    <script src="/js/upload.img-new.js"></script>
+
+    <!-- <script src="/js/Collection.js"></script> -->
+    <!-- <script src="/js/Collection-click.js"></script> -->
+    <script src="/js/screenshot/Edit-img.js"></script>
+    <!-- <script src="/js/collection-page.js"></script> -->
+    
+	<script src="/js/screenshot/screenshot.js"></script>
+
+</body>
+</html>

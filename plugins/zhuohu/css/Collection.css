@@ -1,0 +1,361 @@
+/*收藏框*/
+#collection_html .Cont-opac-all{
+    top: 0;
+}
+.push-table{
+    position: absolute;
+    width: 245px;
+    height: 378px;
+    top: 41px;
+    right: 0;
+    padding:0 23px;
+    color: #fff;
+    /* line-height: 40px; */
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 9;
+    box-sizing: content-box;
+    background:#fff;
+    border: 1px solid #AFAFAF;
+    box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.24);
+}
+.WDX-push-but::after{
+    content: '';
+    position: absolute;
+    width: 64px;
+    height: 18px;
+    top: 25px;
+    right: 0;
+    z-index: 9;
+}
+.WDX-push-but::before{
+    content: '';
+    position: absolute;
+    width: 64px;
+    height: 18px;
+    bottom: 25px;
+    right: 0;
+    z-index: 9;
+}
+body .Cont-left{
+    left: 0;
+}
+body .Cont-top-right{
+    top: auto;
+    bottom: 41px;
+}
+body .Cont-top-left{
+    top: auto;
+    bottom: 41px;
+    left: 0;
+}
+.push-table .css-title .css-icon-off{
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    background: var(--backUrl) -152px -49px;
+}
+.push-table .css-line{
+    color: #666;
+    line-height: 100%;
+}
+.push-table .css-title{
+    margin-top:0;
+    padding: 19px 0 17px;
+    /* height: 34px; */
+    color: #333;
+    font-size: 16px;
+    line-height: 100%;
+    text-align: left;
+    cursor: auto;
+    border-bottom: 1px solid #E3E3E3;
+}
+.push-table .css-inp::-webkit-input-placeholder{
+    color: #999;
+}
+.push-table .hed-search{
+    position: relative;
+    margin-top: 10px;
+}
+.push-table .css-inp{
+    display: block;
+    width: 217px;
+    height: 28px;
+    padding-right: 27px;
+    color: #333;
+    font-size: 14px;
+    line-height: 28px;
+    text-indent: 12px;
+    box-sizing: content-box;
+    border:1px solid #BEBEBE; 
+    background: #fff;
+    border-radius: 4px;
+}
+.push-table .sea-icon-rem{
+    display: none;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 7px;
+    right: 11px;
+    cursor: pointer;
+    background: var(--backUrl) -168px -81px;
+}
+.push-table .css-cont{
+    width: 245px;
+    height: 194px;
+    margin-top: 10px;
+    overflow-x: auto;
+}
+.push-table .css-selec{
+    position: relative;
+    height: 30px;
+    color: #666;
+    font-size: 14px;
+    text-align: left;
+    /* text-indent: 0; */
+    text-indent: 10px;
+    cursor: pointer;
+    line-height: 30px;
+}
+.push-table .css-selec>i{
+    display: none;
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    top: 8px;
+    right: 10px;
+    /* left: 6px; */
+}
+.push-table .icon-history{
+    display: none;
+    background: var(--backUrl) -79px -80px;
+
+}
+.push-table .icon-search-cont{
+    display: none;
+    background: var(--backUrl) -96px -800px;
+}
+/* 默认样式 */
+.push-table .css-selec:hover .icon-history{
+    /* display: block; */
+}
+.push-table .css-selec:hover .icon-search-cont{
+    display: block;
+}
+.push-table .css-selec:hover{
+    background: #F6F6F6;
+    border-radius: 4px;
+}
+.push-table .w-active{
+    background: #F6F6F6;
+    border-radius: 4px;
+}
+.push-table .w-active .icon-history{
+    display: block;
+}
+
+/* 底部创建并添加按钮 */
+.push-table .Establish-comm{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 270px;
+    height: 40px;
+    padding: 8px 11px;
+    box-sizing: content-box;
+    border-top: 1px solid #EBEBEB;
+    
+}
+.Establish-comm .est-but{
+    display: block;
+    position: relative;
+    height: 40px;
+    color: #333;
+    font-size: 14px;
+    line-height: 40px;
+    text-indent: 34px;
+    text-align: left;
+    cursor: pointer;
+}
+.Establish-comm .est-but::after{
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 12px;
+    left: 12px;
+    background: var(--backUrl) -144px -80px;
+}
+.Establish-comm .est-but:hover{
+    background: #F6F6F6;
+}
+/* 输入框 */
+.Establish-comm .est-input{
+    display: none;
+    width: 270px;
+    height: 32px;
+    margin-top: 4px;
+    font-size: 0;
+    line-height: 32px;
+    background: #FEFEFE;
+    border: 1px solid #FCC314;
+    border-radius: 4px;
+}
+.est-input .Input{
+    width: 204px;
+    height: 32px;
+    padding: 0;
+    color: #333;
+    font-size: 14px;
+    border: none;
+    text-indent: 11px;
+    vertical-align: top;
+    border-radius:6px;
+}
+.est-input .but-sub{
+    width: 55px;
+    height: 32px;
+    color: #333;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background: #FCC314;
+    border-radius: 0px 4px 4px 0px;
+
+}
+.Establish-comm .setablish-bottom{
+    display: none;
+}
+.Establish-comm .setablish-bottom .span{
+    display: inline-block;
+    max-width: 70px;
+    margin-top:-3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-indent: 0;
+    vertical-align: middle;
+}
+/*没有对应标签*/
+.push-table .css-cont-nul{
+    display: none;
+    padding:20px 0;
+    text-align: center;
+}
+.push-table .Text{
+    color: #666;
+}
+.push-table .But{
+    display: inline-block;
+    width: 100px;
+    height: 34px;
+    color: #fff;
+    line-height: 34px;
+    border-radius: 4px;
+    background: #3BC66F;
+}
+.push-table .css-selec:first-child{
+    /*margin-top: 0;*/
+}
+.load-type,.load-succ,.load-kf,.load-err{
+    top: 0;
+    display: none;
+}
+.load-type .css-title,.load-succ .css-title,.load-err .css-title,.load-kf .css-title{
+    border: 0;
+}
+
+
+.load-type .load-img{
+    display: block;
+    width: 48px;
+    height: 48px;
+    margin: 97px auto 0;
+}
+.load-type .load-text{
+    margin-top: 10px;
+    color: #333;
+    font-size: 16px;
+    line-height: 100%;
+    text-align: center;
+}
+/* 成功 */
+.load-succ{
+    /* display: none; */
+   
+}
+.load-succ .succ-txt{
+    color: #333;
+    font-size: 16px;
+    text-align: center;
+}
+.load-succ .href-suc{
+    color: #C79703;
+}
+.push-table .img-type{
+    display: block;
+    width: 254px;
+    height: 200px;
+    margin-top: 30px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+/* 失败 */
+.load-err{
+    top: 0;
+}
+.push-table .succ-txt{
+    color: #333;
+    font-size: 16px;
+    line-height: 100%;
+    text-align: center;
+}
+.push-table .text-br{
+    position: relative;
+    margin: 33px 0 20px;
+    color: #999;
+    font-size: 14px;
+    line-height: 100%;
+    text-align: center;
+}
+.push-table .text-br::before{
+    content: '';
+    position: absolute;
+    top: 7px;
+    right: 0;
+    width: 100px;
+    height: 1px;
+    background: #999;
+}
+.push-table .text-br::after{
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 0;
+    width: 100px;
+    height: 1px;
+    background: #999;
+}
+.push-table .img-code{
+    display: block;
+    width: 184px;
+    height: 184px;
+    margin: 0 auto;
+}
+.push-table .but-kf{
+    margin-top: 40px;
+    color: #666;
+    font-size: 12px;
+    line-height: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+.load-kf .but-kf{
+    margin-top: 8px;
+    cursor: auto;
+}
