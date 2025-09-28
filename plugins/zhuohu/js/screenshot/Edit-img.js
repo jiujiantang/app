@@ -1,18 +1,33 @@
+// 通信 B!
+function onDispatch(msg,callback) {
+    chrome.runtime.sendMessage(msg, function(response){
+        if(callback) callback(response)
+    });
+}
+var bg = {
+    getScreenshotData: function(callback){
+        onDispatch(`getScreenshotData`, function(response){
+            if (chrome.runtime.lastError) {
+                console.error("Error: " + chrome.runtime.lastError.message);
+            } else {
+                callback(response)
+            }
+        })
+    }
+}
+// E！
+
 $('#page-off').on('click',function(){
     window.open('','_self');
     window.close();
 })
-var bg = chrome.extension.getBackgroundPage();
-var UploadSrc  = bg.screenshot.imgSrc;
-var UploadTit  = bg.screenshot.imgTitle;
-var UploadHost = bg.screenshot.HostUrl;
-var UploadType = bg.screenshot.scrType;
-// scrType 1是自由选择  2是可视区域   3是全部区域
 
 function photoshopInit(){
-    $('.js_img_canv').attr('src',bg.screenshot.imgSrc)
-    document.title = bg.screenshot.imgTitle;
-    $('.js_look').attr('href',hrefUrl+'inspiration?id='+'');
+    bg.getScreenshotData(function(data){
+        $('.js_img_canv').attr('src',data.imgSrc)
+        document.title = data.imgTitle;
+        $('.js_look').attr('href',hrefUrl+'inspiration?id='+'');
+    })
 }
 
 $('.load-succ').on('click','.js_look',function(){
@@ -305,19 +320,21 @@ function insClassAdd(thisName){
 // 收藏灵感
 function newAddIns(thisId,thsiName){
     console.log(264)
-    var ImgUploadOss = {
-        imgSrc : UploadSrc,
-        title : UploadTit,
-        fromUrl : UploadHost,
-        classId : thisId,
-        insName : thsiName,
-        tags : [],
-        arrLen:['']
-    }
-    // return false;
-    $('.Cont-opac-all').hide().siblings('.load-type').show();
-    chromeObj.toImg(ImgUploadOss)
-    // chromeObj.toImg(imgSrc,title,fromUrl,classId,tags,insName,arrLen)
+
+    bg.getScreenshotData(function(data){
+        debugger
+        var ImgUploadOss = {
+            imgSrc : data.imgSrc,
+            title : data.imgTitle,
+            fromUrl : data.HostUrl,
+            classId : thisId,
+            insName : thsiName,
+            tags : [],
+            arrLen:['']
+        }
+        $('.Cont-opac-all').hide().siblings('.load-type').show();
+        chromeObj.toImg(ImgUploadOss)
+    })
 }
 window.addEventListener('load', function() {
     photoshopInit();

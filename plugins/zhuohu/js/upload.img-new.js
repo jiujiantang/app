@@ -1,5 +1,24 @@
-
 ;
+
+// 通信 B!
+function onDispatch(msg,callback) {
+    chrome.runtime.sendMessage(msg, function(response){
+        if(callback) callback(response)
+    });
+}
+var bg = {
+    getScreenshotData: function(callback){
+        onDispatch(`getScreenshotData`, function(response){
+            if (chrome.runtime.lastError) {
+                console.error("Error: " + chrome.runtime.lastError.message);
+            } else {
+                callback(response)
+            }
+        })
+    }
+}
+// E！
+
 /**
  * 截图采集上传到oss 
  */
@@ -218,7 +237,7 @@ function InsinfoAdd(imgMd5,fileName,ossImg,fromUrl,classId,tags,imgSrc,ossUpload
         }
     
     chromeObj.ajaxPost(ajaxUrl+"inspiration/info/add",paramObj,function(res){
-        if(res.code == 1){
+        if(res.code === 1){
             try {
                 data.push(imgSrc);
             }catch(e) {
@@ -231,16 +250,17 @@ function InsinfoAdd(imgMd5,fileName,ossImg,fromUrl,classId,tags,imgSrc,ossUpload
             ossImgUploadSucc(ossUploadSucc,imgSrc)
             overUploadType(1,classId)
 
-            var bg = chrome.extension.getBackgroundPage();
-            var UploadType = bg.screenshot.scrType;
-            // scrType 1是自由选择  2是可视区域   3是全部区域
-            var data = {
-                type:UploadType == 1 ? 'zhuohu_Inspiration_plug_selection_screenshot_collect' : (UploadType == 2 ? 'zhuohu_Inspiration_plug_full_screenshot_collect' : 'zhuohu_Inspiration_plug_fullpage_screenshot_collect'),
-                inspiration_class_id:classId,
-                inspiration_id:res.data
-            }
-            chromeObj.BuryingPoint(data)
-        }else if(res.code == 10001){
+            bg.getScreenshotData(function(res){
+                var UploadType = res.scrType;
+                // scrType 1是自由选择  2是可视区域   3是全部区域
+                var data = {
+                    type:UploadType === 1 ? 'zhuohu_Inspiration_plug_selection_screenshot_collect' : (UploadType === 2 ? 'zhuohu_Inspiration_plug_full_screenshot_collect' : 'zhuohu_Inspiration_plug_fullpage_screenshot_collect'),
+                    inspiration_class_id:classId,
+                    inspiration_id:res.data
+                }
+                chromeObj.BuryingPoint(data)
+            })
+        }else if(res.code === 10001){
             overUploadType(2)
         }else{
             layer.msg(res.msg);

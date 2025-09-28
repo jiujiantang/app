@@ -1,11 +1,41 @@
-var bg = chrome.extension.getBackgroundPage();
-var UploadSrc  = bg.screenshot.imgSrc;
-var UploadTit  = bg.screenshot.imgTitle;
-var UploadHost = bg.screenshot.HostUrl;
-console.log(UploadHost)
-$('.Free_common').find('.img-choice').attr('src',UploadSrc)
-showSelectionArea();
-document.title = UploadTit;
+// 通信&存储 B!
+var UploadSrc ;
+var UploadTit;
+var UploadHost;
+
+// 调用background.js方法 B!
+function onDispatch(msg,callback) {
+  chrome.runtime.sendMessage(msg, function(response){
+    if(callback) callback(response)
+  });
+}
+var bg = {
+  getScreenshotData: function(){
+    onDispatch(`getScreenshotData`, function(response){
+      if (chrome.runtime.lastError) {
+        console.error("Error: " + chrome.runtime.lastError.message);
+      } else {
+        // 正常处理响应
+        UploadSrc = response.imgSrc;
+        UploadTit = response.imgTitle;
+        UploadHost = response.HostUrl;
+        console.log(UploadHost);
+        $('.Free_common').find('.img-choice').attr('src', UploadSrc);
+        showSelectionArea();
+        document.title = UploadTit;
+      }
+    })
+  },
+  FncanvasImgBaseObj: function(format){
+    onDispatch({
+      action: "FncanvasImgBaseObj",
+      format: format
+    })
+  },
+}
+bg.getScreenshotData()
+// E！
+
 /**
  * 自由选择截屏  此处是新开页面截图
  */
@@ -59,7 +89,7 @@ var screenshot = {
 }
 
 chrome.runtime.onMessage.addListener(function(request, sender, resCallback){
-    if(request.value == 'zhuohu_capture_selected'){
+    if(request.value === 'zhuohu_capture_selected'){
         var page_info = {
             href: document.location.href,
             text: document.title || ''
@@ -76,7 +106,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, resCallback){
         // console.log(page)
         FreeSingleVisibleSizeFn(resDate);
         resCallback(resDate);
-    }else if(request.value == 'SelectScrImg'){
+    }else if(request.value === 'SelectScrImg'){
         // 裁剪截取到的屏幕
         var imgSrc = request.cmd;
         CanvasIImgAfter(imgSrc)
@@ -185,12 +215,12 @@ function createSelectionArea() {
 
     var crop = createDiv(containerEl, 'zh_drag_crop');
     crop.addEventListener('mousedown', function(ev) {
-		removeSelectionArea();
-		// console.log('确定采集')
-		setTimeout(function(){
-        	sendMessage('zhuohu_capture_selected');
-      	}, 100);
-		//   console.log(page)
+      removeSelectionArea();
+      // console.log('确定采集')
+      setTimeout(function(){
+            sendMessage('zhuohu_capture_selected');
+          }, 100);
+      //   console.log(page)
     }, false);
     crop.innerHTML = '<span><i></i>完成<span>';
 
@@ -785,18 +815,15 @@ function CanvasIImgAfter(data){
         context.drawImage(image, startX, startY, _canvasWidth, _canvasHeight, 0, 0, _canvasWidth, _canvasHeight);
         var ext = image.src.substring(image.src.lastIndexOf(".") + 1).toLowerCase()
         var dataURL = screenshot.canvas.toDataURL("image/" + ext)
-        // var FromUrl = window.location.href;
-        // var imgSrc = dataURL;
-        // var dataTitle = document.title;
+
         var formatArr = {
-			imgSrc    : dataURL,
-			FromUrl   : UploadHost,
-			dataTitle : UploadTit
+          imgSrc    : dataURL,
+          FromUrl   : UploadHost,
+          dataTitle : UploadTit
         }
-		// console.log(dataURL)
         sendMessage({uploadPage:'canvasNewPage',format:formatArr});
-		$('body').css('overflow','');
-      };
+        $('body').css('overflow','');
+    };
     image.src = data;
 }
 

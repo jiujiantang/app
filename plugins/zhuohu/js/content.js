@@ -7,107 +7,98 @@ $(function(){
 		//Collection  收藏  Login 登录
 		// 此处判断处理页面有多个iframe页面会进行多次加载
 		if (window.self === window.top) {
-			// console.log(request)
-			if(request.value == 'Collection'){
+			console.log(request)
+			if(request.value === 'Collection'){
 				// BathCollectionFn.CollectionObj(Aimg);
-			}else if(request.value == 'Login'){
+			}else if(request.value === 'Login'){
 				fnLoginObj();
 				resCallback(pageSize);
-			}else if(request.value == 'bookmark'){
+			}else if(request.value === 'bookmark'){
 			// bookmark  添加书签
 				var bookDate = {
 					winHost: window.location.href,
 					wintitl: document.title
 				};
 				resCallback(bookDate);
-			}else if(request.value == 'bookClose'){
+			}else if(request.value === 'bookClose'){
 				removIframeObj('#Wdx_BookMarkId')
-			}else if(request.value == 'cookieKey'){
+			}else if(request.value === 'cookieKey'){
 				fnCookies(request.cmd);
 				resCallback(pageSize);
-			}else if(request.value == 'imgList'){
+			}else if(request.value === 'imgList'){
 				// 批量收藏
 				$('body').css('overflow', 'hidden');
 				imgListHtmlObj();
 				resCallback(pageSize);
-			}else if(request.value == 'ifram'){
+			}else if(request.value === 'ifram'){
 				// 关闭批量收藏
 				$('body').css('overflow','');
 				removIframeObj('#Wdx_iframeID')
 				resCallback(pageSize);
-			}else if(request.value == 'iframePage'){
+			}else if(request.value === 'iframePage'){
 				$('body').css('overflow','');
 				removIframeObj('#Wdx_CollectID');
 				removIframeObj('#WDX_zhuohu_collector_protector');
 				resCallback(pageSize);
 
-			}else if(request.value == 'userLogin'){
+			}else if(request.value === 'userLogin'){
 				resCallback(pageSize);
-			}else if(request.value == 'uploadPage'){
+			}else if(request.value === 'uploadPage'){
 				// 单个收藏成功
 				uploadHtmlObj(request)
 				resCallback(pageSize);
-			}else if(request.value == 'uploadPageOff'){
+			}else if(request.value === 'uploadPageOff'){
 				removIframeObj('#Wdx_imgSuccID')
 				resCallback(pageSize);
-			}else if(request.value == 'uploadErr'){
+			}else if(request.value === 'uploadErr'){
 				// 展示上传失败的页面
 				uploadErrObj(request)
 				resCallback(pageSize);
-			}else if(request.value == 'uploadErrPage'){
+			}else if(request.value === 'uploadErrPage'){
 				// 关闭上传失败页面
 				removIframeObj('#Wdx_imgErrID')
 				resCallback(pageSize);
-			}else if( request.value == 'areaScrHeight'){
+			}else if( request.value === 'areaScrHeight'){
 				// 判断当前内容区域是一屏就调用可视区域截屏否则调用全部截屏（处理花瓣网首页调用全屏截取到的是空白）
 				var pageSize = windHeight();
 				// console.log(pageSize)
 				resCallback(pageSize);
-			} else if(request.value ==  'hostType'){
+			} else if(request.value ===  'hostType'){
 				// 获取当前页面url 判断是否是卓乎的
 				resCallback(FromUrl);
-			} else if(request.value ==  'areaScrImg'){
+			} else if(request.value ===  'areaScrImg'){
 				// 区域截屏后的上传  此处更改为新页面了
 				// var imgSrc = request.cmd;
 				// // console.log(imgSrc)
 				// var dataTitle = document.title;
 				// fullOddObj(dataTitle,FromUrl,imgSrc)
-				$('body').css('overflow','');
+				areaScrImg()
 				resCallback(pageSize);
-			}else if(request.value ==  'areaWinScroll'){
+			}else if(request.value ===  'areaWinScroll'){
 				// 可视区域截屏隐藏滚动条
 				$('body').css('overflow','hidden');
 				setTimeout(function(){
 					$('body').css('overflow','');
 				},1000)
 				resCallback(pageSize);
-			}else if(request.value == 'fetchPageSize'){
+			}else if(request.value === 'fetchPageSize'){
 				// 全部内容截屏
-				var pageSize = {
-					scrollHeight: document.body.scrollHeight,
-					scrollWidth: document.body.scrollWidth,
-					clientWidth: document.documentElement.clientWidth,
-					clientHeight: document.documentElement.clientHeight
-				};
+				var pageSize = fetchPageSize()
 				resCallback(pageSize);
-			}else if(request.value == 'scrollPage'){
+			}else if(request.value === 'scrollPage'){
 				// 全部内容截屏
-				window.scrollBy(request.x, request.y);
-				var pageSize = {};
-				setTimeout(function(){
-					enableFixedPosition(true);
-				},550)
+				var pageSize = scrollPage(request.x, request.y)
 				resCallback(pageSize);
-			}else if(request.value == 'SelectArea'){
+			}else if(request.value === 'SelectArea'){
 				// 自由选择截屏
 				insertBookmarklet();
 				resCallback(pageSize);
-			}else if(request.value == 'show_selection_area'){
+			}else if(request.value === 'show_selection_area'){
 				// 自由选择截屏
 				$('body').css('overflow','hidden');
 				showSelectionArea();
 				resCallback(pageSize);
-			}else if(request.value == 'zhuohu_capture_selected'){
+			}else if(request.value === 'zhuohu_capture_selected'){
 				// 自由选择截屏
 				var page_info = {
 					href: document.location.href,
@@ -132,13 +123,13 @@ $(function(){
 				// 	cal_y,
 				// 	'captureSelected'), {page_info:page_info}))
 				resCallback(resDate);
-			}else if(request.value == 'SelectScrImg'){
+			}else if(request.value === 'SelectScrImg'){
 				// 裁剪截取到的屏幕
 				var imgSrc = request.cmd;
 				// $('body').append('<img class="imgOpact" style="" src="'+imgSrc+'">')
 				CanvasIImgAfter(imgSrc)
 				resCallback(pageSize);
-			}else if(request.value ==  'MultiGraphImg'){
+			}else if(request.value ===  'MultiGraphImg'){
 				// 自由裁剪截取到的长图
 				var imgSrc = request.cmd;
 				CanvasIImgAfter(imgSrc)
@@ -147,17 +138,41 @@ $(function(){
 				// var imgSrc = request.cmd;
 				// CanvasGraph(imgSrc)
 				// resCallback(pageSize);
-			}else if(request.value == 'cont_scroll_next'){
+			}else if(request.value === 'cont_scroll_next'){
 				// 自由裁剪多屏
 				// page.visibleWidth = request.visibleWidth;
 				// page.visibleHeight = request.visibleHeight;
 				// resCallback(merge(scrollNext(), {page_info:page_info}));
+			}else if(request.value === 'Capturer'){
+				Capturer.tabWin = window;
+				Capturer.tabId = request.cmd.tabId;
+				Capturer.fetchPageSize(request.cmd.tabId);
 			}
 				
 			return true;
 		}
-
 	});
+
+	function fetchPageSize() {
+		return {
+			scrollHeight: document.body.scrollHeight,
+			scrollWidth: document.body.scrollWidth,
+			clientWidth: document.documentElement.clientWidth,
+			clientHeight: document.documentElement.clientHeight
+		};
+	}
+	function scrollPage(x,y) {
+		window.scrollBy(x, y);
+		var pageSize = {};
+		setTimeout(function(){
+			enableFixedPosition(true);
+		},550)
+		return pageSize;
+	}
+	function areaScrImg() {
+		$('body').css('overflow','');
+	}
+
 	function merge() {
 		var merged = {};
 		for (var i = 0, l = arguments.length; i < l; i++){
@@ -521,5 +536,90 @@ function uploadErrObj(request){
 			path: '/',
 			domain: '3d66.com'
 		});
-    }
+	}
+
+
+	/**
+	 * 下面是全部区域截屏
+	 */
+	var Capturer = {
+		canvas: document.createElement("canvas"),
+		yPos: 0,
+		scrollHeight: 0,
+		scrollWidth: 0,
+		fetchPageSize: function (tabId){
+			var self = this;
+			// chrome.tabs.sendMessage(tabId, {value: 'fetchPageSize'}, self.onResponseVisibleSize);
+			self.onResponseVisibleSize(fetchPageSize())
+		},
+		scrollPage: function(tabId, x, y){
+			var self = this;
+			// chrome.tabs.sendMessage(tabId, {value: 'scrollPage', x: x, y: y}, self.onScrollDone);
+			self.onScrollDone(scrollPage(x, y))
+		},
+		onScrollDone: function(resMsg) {
+			// console.log('onScrollDone', resMsg);
+			setTimeout(function(){
+				Capturer.captureVisibleBlock();
+			}, 1000)
+		},
+		startCapture: function(){
+			this.yPos = 0;
+			this.scrollPage(this.tabId, 0, -1 * this.scrollHeight);
+		},
+		onResponseVisibleSize: function (pageSize) {
+			// console.log(pageSize)
+			Capturer.scrollWidth = pageSize.clientWidth;
+			// Capturer.scrollWidth = pageSize.scrollWidth;
+			Capturer.scrollHeight = pageSize.scrollHeight;
+			Capturer.clientWidth = pageSize.clientWidth;
+			Capturer.clientHeight = pageSize.clientHeight;
+			Capturer.canvas.width = pageSize.clientWidth;
+			Capturer.canvas.height = pageSize.scrollHeight;
+
+			Capturer.startCapture();
+		},
+		captureVisibleBlock: function (w, h){
+			var self = this;
+			var width = w || self.clientWidth;
+			var height = h || self.clientHeight;
+
+
+			// content.js
+			chrome.runtime.sendMessage(
+				{ action: "captureVisibleTab" },
+				(response) => {
+					if (response.dataUrl) {
+						console.log(1)
+						var img = response.dataUrl;
+						var blockImg = new Image();
+
+						if (Capturer.yPos + Capturer.clientHeight >= Capturer.scrollHeight) {
+							blockImg.onload = function() {
+								var canvas = Capturer.canvas;
+								var ctx = canvas.getContext("2d");
+								var y = Capturer.clientHeight - Capturer.scrollHeight % Capturer.clientHeight;
+								ctx.drawImage(blockImg, 0, 0, width, height, 0, self.yPos - y, width, height);
+								var screenshotUrl = canvas.toDataURL();
+								chrome.runtime.sendMessage({ action: "postImg", screenshotUrl: screenshotUrl }, (response) => {});// 跳转
+							};
+						} else {
+							blockImg.onload = function() {
+								var canvas = Capturer.canvas;
+								var ctx = canvas.getContext("2d");
+								ctx.drawImage(blockImg, 0, 0, width, height, 0, Capturer.yPos, width, height);
+								Capturer.yPos += Capturer.clientHeight;
+								self.scrollPage(self.tabId, 0, Capturer.clientHeight);
+							};
+						}
+						blockImg.src = img;
+					}
+				}
+			);
+
+		},
+		scrollToNextBlock: function () {
+
+		}
+	};
 });

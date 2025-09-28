@@ -48,3 +48,40 @@ Chrome 插件与油猴脚本常用 API
 | 右键菜单功能  | `contextMenus`                     | `GM_registerMenuCommand`         |
 | 通知提示    | `notifications` + `Notification`   | `GM_notification`                |
 
+# 版本迁移 V2 → V3
+
+> 迁移指南： https://developer.chrome.com/docs/extensions/develop/migrate?hl=zh-cn
+
+> 官方文档
+> - [Chrome Extension Manifest V3](https://developer.chrome.com/docs/extensions/mv3/)
+> - [MDN Web Docs - Manifest V3](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json)
+
+
+## 🗓️ 主流浏览器 Manifest V2 淘汰时间线
+
+### 已停止支持的浏览器
+
+| 浏览器 | 停止支持时间 | 当前状态 | 核心版本 | 特殊说明 |
+|--------|-------------|----------|----------|----------|
+| **Google Chrome** | 2024年6月 | ❌ 已停止支持 | Chromium 124+ | 企业版可延期至2025年6月 |
+| **Microsoft Edge** | 2024年6月 | ❌ 已停止支持 | Chromium 124+ | 完全跟随Chrome时间表 |
+| **Opera** | 2024年6月 | ❌ 已停止支持 | Chromium 109+ | 与Chrome同步更新 |
+
+### 逐步淘汰中的浏览器
+
+| 浏览器 | 停止支持时间 | 当前状态 | 核心版本 | 迁移紧迫性 |
+|--------|-------------|----------|----------|----------|
+| **360安全浏览器** | 2024年9月 | ⚠️ 逐步淘汰中 | Chromium 109+ | 高优先级 |
+| **360极速浏览器** | 2024年9月 | ⚠️ 逐步淘汰中 | Chromium 86+ | 高优先级 |
+| **QQ浏览器** | 2024年10月 | ⚠️ 仍在支持 | Chromium 95+ | 中优先级 |
+
+### 仍在支持的浏览器
+
+| 浏览器 | 停止支持时间 | 当前状态 | 核心版本 | 建议完成时间 |
+|--------|-------------|----------|----------|----------|
+| **搜狗浏览器** | 2024年12月 | ✅ 仍在支持 | Chromium 78+ | 2024年11月前 |
+| **猎豹浏览器** | 2025年1月 | ✅ 仍在支持 | Chromium 87+ | 2024年12月前 |
+| **傲游浏览器** | 未明确 | ✅ 仍在支持 | Chromium内核 | 持续关注 |
+
+---
+

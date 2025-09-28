@@ -1,9 +1,87 @@
 'use strict';
 
 (function() {
-    // 调用background.js方法
-    var bg = chrome.extension.getBackgroundPage();
-    // console.log(bg.FnCookiefObbj())
+
+    // 通信 B!
+        function onDispatch(msg,callback) {
+            chrome.runtime.sendMessage(msg, function(response){
+                if(callback) callback(response)
+            });
+        }
+
+        // 向content主动发送消息
+        function sendMessageToContentScript(message, callback){
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+                chrome.tabs.sendMessage(tabs[0].id, message, function(response){
+                    if(callback) callback(response);
+                });
+            });
+        }
+        // 判断是否是卓乎 域名下的  、截图采集页面，都不可使用插件
+        sendMessageToContentScript({cmd:'test', value:'hostType'}, function(response){
+            var HostUrl = response;
+            if(HostUrl === undefined){
+                $('.js_cursor_no,.JS_screen').addClass('open').css('cursor','not-allowed');
+                return;
+            }
+            if(HostUrl.match('www-zhuohu.3d66.com')){
+                $('.js_cursor_no,.JS_screen').addClass('open').css('cursor','not-allowed');
+            }
+        })
+    // E！
+
+    // 调用background.js方法 B!
+    var bg = {
+        areaImgFull: function(type){
+            onDispatch(`areaImgFull${type?type:""}`)
+        },
+        takeScreenshot: function(){
+            onDispatch("takeScreenshot")
+        },
+    }
+    // E！
+
+    // 日志 B!
+    var Logger = function(msg){
+        console.log(msg);
+    }
+    // E!
+
+
+    // 截屏功能 B!
+    $('.JS_screen').on('click',function(){
+        if($(this).hasClass('open')){
+            return false;
+        }
+
+        var thisT = Number($(this).attr('data-type'));
+
+        chromeObj.FnuserInfoObj(function(res){
+            if(res.code === 10001){// 登录
+                chromeObj.goLoginObj();
+            }else{
+                if(thisT === 1){// 1是全屏
+                    sendMessageToContentScript({cmd:'test', value:'areaScrHeight'}, function(response){
+
+                        Logger(`全屏：${response}`)
+                        if(response === 1){
+                            bg.areaImgFull();
+                        }else{
+                            bg.takeScreenshot();
+                        }
+                        window.close();
+                    });
+                }else if(thisT === 2){// 2是区域截屏
+                    bg.areaImgFull()
+                    window.close();
+                }else{// 自由选择区域截屏
+                    bg.areaImgFull(1);
+                    window.close();
+                }
+            }
+        })
+    })
+    // E!
 
     // 判断是否登录
     ChromeUserLogin();
@@ -19,20 +97,9 @@
         })
     }
 
-    /**
-     * 判断是否是卓乎 域名下的  、截图采集页面，都不可使用插件
-     */
-    sendMessageToContentScript({cmd:'test', value:'hostType'}, function(response){
-        
-        var HostUrl = response;
-        if(HostUrl == undefined){
-            $('.js_cursor_no,.JS_screen').addClass('open').css('cursor','not-allowed');
-            return;
-        }
-        if(HostUrl.match('www-zhuohu.3d66.com')){
-            $('.js_cursor_no,.JS_screen').addClass('open').css('cursor','not-allowed');
-        }
-    })
+
+
+
     function DownsetimeObj(){
         var loginSetime = '';
         setTimeout(function(){
@@ -55,7 +122,7 @@
 	});
    
     // 启动插件埋点、插件版本号
-    var html = chrome.app.getDetails().version;
+    var html = chrome.runtime.getManifest().version;
     chromeVersion()
     function chromeVersion(){
         
@@ -149,66 +216,17 @@
     $('.js_close_book').on('click',function(){
         $('.add-book-table,.book-alt').hide();
     })
-
-    // 截屏功能点击事件
-    $('.JS_screen').on('click',function(){
-        // 1是全屏  2是区域截屏
-        if($(this).hasClass('open')){
-            return false;
-        }
-        var thisT = $(this).attr('data-type');
-        chromeObj.FnuserInfoObj(function(res){
-            if(res.code == 10001){
-                chromeObj.goLoginObj();
-            }else{
-                if(thisT == 1){
-                    sendMessageToContentScript({cmd:'test', value:'areaScrHeight'}, function(response){
-                        console.log(response);
-                        if(response == 1){
-                            bg.areaImgFull();
-                        }else{
-                            bg.takeScreenshot();
-                        }
-                        window.close();
-                    });
-                }else if(thisT == 2){
-                    bg.areaImgFull()
-                    window.close();
-                }else{
-                    //自由选择区域截屏
-                    bg.areaImgFull(1);
-                    window.close();
-                    // bg.FnSelectAreaObj(function(){
-                    //     window.close();
-                    // });
-                    // sendMessageToContentScript({cmd:'test', value:'SelectArea'}, function(response){
-                    //     console.log('来自cont的回复：'+response);
-                    //     window.close();
-                    // });
-                }
-                
-            }
-        })
-        
-    })
     // 打开设置面板
     $('.JS_set_up').on('click',function(){
         $('.Set-Up').show().siblings().hide();
     })
-    
-    function sendMessageToContentScript(message, callback){
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-            chrome.tabs.sendMessage(tabs[0].id, message, function(response){
-                if(callback) callback(response);
-            });
-        });
-    }
+
     // chrome.browserAction.onClicked.addListener(function(tab) {
     //     chrome.tabs.executeScript(null,{code:"document.body.bgColor='red'"});
     //   });
     
     // 传参数到background.js
-    chrome.extension.getBackgroundPage().test('111');//传出
+    // chrome.extension.getBackgroundPage().test('111');//传出
     // 调用background.js的方法
     
     chrome.cookies.getAll({
