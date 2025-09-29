@@ -21,7 +21,7 @@ function addBookMarkObj(){
 	// console.log('添加书签快求解')
 	var Aimg = $('body').find('img');
 	var iframe = document.createElement('iframe'); 
-	iframe.src= chrome.extension.getURL('bookmark.html');  
+	iframe.src= chrome.runtime.getURL('bookmark.html');
 	iframe.id = 'Wdx_BookMarkId';
 	iframe.style = 'width:216px;height:143px;position:fixed;top:10px;right:10px;border-radius: 4px;z-index:2147483647;border:0;display:block;';
 	document.body.appendChild(iframe);
@@ -34,7 +34,7 @@ var FromUrl = window.location.href;
 function imgListHtmlObj(){
 	var Aimg = $('body').find('img');
 	var iframe = document.createElement('iframe'); 
-	iframe.src= chrome.extension.getURL('imgfile.html');  
+	iframe.src= chrome.runtime.getURL('imgfile.html');
 	iframe.id = 'Wdx_iframeID';
 	iframe.style = 'width:100%;height:100%;position:fixed;top:0;left:0;height:100%;z-index:2147483647;border:0;display:block;';
 	document.body.appendChild(iframe);

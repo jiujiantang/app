@@ -153,6 +153,7 @@ $(function(){
 		}
 	});
 
+// 工具方法 B!
 	function fetchPageSize() {
 		return {
 			scrollHeight: document.body.scrollHeight,
@@ -172,26 +173,26 @@ $(function(){
 	function areaScrImg() {
 		$('body').css('overflow','');
 	}
+	// function merge() {
+	// 	var merged = {};
+	// 	for (var i = 0, l = arguments.length; i < l; i++){
+	// 	  var extended = arguments[i] || {};
+	// 	  for (var key in extended) merged[key] = extended[key];
+	// 	}
+	// 	return merged;
+	// };
+	function removIframeObj(domeId){
+		$(domeId).remove();
+	}
+// E！
 
-	function merge() {
-		var merged = {};
-		for (var i = 0, l = arguments.length; i < l; i++){
-		  var extended = arguments[i] || {};
-		  for (var key in extended) merged[key] = extended[key];
-		}
-		return merged;
-	};
-	
-
-function removIframeObj(domeId){
-	$(domeId).remove();
-}
-// 单个收藏
+// 收藏(单个) B！
 function uploadHtmlObj(request){
+
 	//隐藏截图页面
-	
 	$('body').css('overflow','');
 	removeElement('WDX_zhuohu_collector_protector');
+
 	var userName = request.cmd.name;
 	var imgUrl = request.cmd.imgUrl;
 	var load = request.cmd.load;
@@ -241,6 +242,8 @@ function uploadErrObj(request){
 			}
 		});
 	}
+
+	// todo 图片采集逻辑
 	// 移入图片展示采集按钮
 	// 单独处理花瓣网单个图片收藏
 	if(FromUrl.match('https://huaban.com/') != null){
@@ -476,7 +479,7 @@ function uploadErrObj(request){
 			return false;
 		}
 		var iframe = document.createElement('iframe'); 
-		iframe.src= chrome.extension.getURL('Collection-page.html');  
+		iframe.src= chrome.runtime.getURL('Collection-page.html');
 		iframe.id = 'Wdx_CollectID';
 		if(evenY > 400){
 			// 此处是下方距离充足，判断右侧距离是否充足  需要计算左侧的（暂未计算）
