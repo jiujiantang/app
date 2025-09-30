@@ -8,16 +8,17 @@ export default defineConfig({
         emptyOutDir: true,
         rollupOptions: {
             input: {
-                popup: resolve(__dirname, 'src/popup.ts'),      // popup脚本
-                background: resolve(__dirname, 'src/background.ts'), // 后台脚本
-                content: resolve(__dirname, 'src/content.ts'),       // 内容脚本
+                popup: resolve(__dirname, 'src/assists/js/popup.ts'),      // popup脚本
+                background: resolve(__dirname, 'src/assists/js/background.ts'), // 后台脚本
+                content: resolve(__dirname, 'src/assists/js/content.ts'),       // 窗口、文档脚本
             },
             output: {
                 entryFileNames: (chunk) => {
                     if (['popup','background', 'content'].includes(chunk.name)) {
                         return `${chunk.name}.js`
+                    }else {
+                        return `assets/[name].[hash].js`
                     }
-                    return `assets/[name].[hash].js`
                 },
                 chunkFileNames: '[name].[hash].js',
                 assetFileNames: '[name].[ext]'

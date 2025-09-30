@@ -8,16 +8,4 @@
  * 与浏览器的存储系统打交道，实现数据的持久保存；
  * 监听浏览器的标签页切换、网页加载、网络请求等事件。
  */
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  if (msg.action === "save-bg") {
-    const { url, base64 } = msg;
-    chrome.storage.local.get(["bg_map"], (res) => {
-      const bgMap = res.bg_map || {};
-      bgMap[url] = base64;
-      chrome.storage.local.set({ bg_map: bgMap }, () =>
-        sendResponse({ success: true })
-      );
-    });
-    return true; // 异步回调
-  }
-});
+
