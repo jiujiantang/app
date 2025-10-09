@@ -1,5 +1,0 @@
-// 公钥加密
-;
-const PUBLIC_KEY = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC9hX+ORJy0ssZ99R0AiS0phjg8BTHiszXscH3GhczKQZNfm+O1fXsf2tjNu0F+OfhMf8bcWms48hTwBqhuMDZNKS9YV38Nqb6OEyX9o+S4fUIiQYSC9ui7N13qNbuMG9ZuXPBYGiw99ocll6rlmenWs2zJaSK8JmUQs94HjmGQ8wIDAQAB';
-var encrypt = new JSEncrypt();
-encrypt.setPublicKey('-----BEGIN PUBLIC KEY-----' + PUBLIC_KEY + '-----END PUBLIC KEY-----');

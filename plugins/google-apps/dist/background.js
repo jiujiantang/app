@@ -1,1 +1,0 @@
-chrome.runtime.onMessage.addListener((e,c,r)=>{if(e.action==="save-bg"){const{url:s,base64:t}=e;return chrome.storage.local.get(["bg_map"],o=>{const a=o.bg_map||{};a[s]=t,chrome.storage.local.set({bg_map:a},()=>r({success:!0}))}),!0}});
