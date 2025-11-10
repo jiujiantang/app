@@ -5,7 +5,7 @@ import { registerApplication, start } from 'single-spa';
 
 registerApplication({
   name: 'square',
-  app: () => import('../../square/src/main.js'),
+  app: () => import('../../square/src/toy-react.js'),
   activeWhen: '/square',
   customProps: {
     some: 'value',
